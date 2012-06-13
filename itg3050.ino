@@ -7,7 +7,7 @@
 #include <stdint.h>
 #include "itg3050.h"
 
-#define GYRO_ADDR  I2C_ADDRESS_0
+#define GYRO_ADDR  ITG3050_I2C_ADDRESS_0
 
 void setup()
 {
@@ -48,7 +48,7 @@ int itg3050_print_config(uint8_t i2c_addr)
 int itg3050_read_all(uint8_t i2c_addr, int16_t* x, int16_t* y, int16_t* z)
 {
   Wire.beginTransmission(i2c_addr);
-  Wire.write((uint8_t)(GYRO_XOUT_H));
+  Wire.write((uint8_t)(ITG3050_GYRO_XOUT_H));
   Wire.endTransmission();
   Wire.requestFrom(i2c_addr, (uint8_t)6);
 
@@ -66,13 +66,13 @@ int itg3050_read_all(uint8_t i2c_addr, int16_t* x, int16_t* y, int16_t* z)
 int itg3050_detect(uint8_t i2c_addr)
 {
   Wire.beginTransmission(i2c_addr);
-  Wire.write((uint8_t)WHO_AM_I);
+  Wire.write((uint8_t)ITG3050_WHO_AM_I);
   Wire.endTransmission();
   Wire.requestFrom((uint8_t)i2c_addr, (uint8_t)1);
   if (Wire.available())
   { 
     uint8_t hello = Wire.read();
-    return (hello & ID_MASK) != ID_VALUE;
+    return (hello & ITG3050_ID_MASK) != ITG3050_ID_VALUE;
   }
   return -1;
 
